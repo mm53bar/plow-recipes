@@ -22,7 +22,7 @@ function create_vhost() {
   restart nginx
 }
 
-new_vhost=$(cat <<END-OF-FILE
+new_vhost=$(cat <<EOF
   upstream app_server {
     server unix:/srv/$APP_NAME/tmp/sockets/unicorn.sock fail_timeout=0;
   }
@@ -147,7 +147,8 @@ new_vhost=$(cat <<END-OF-FILE
       add_header   Cache-Control public;
     }
   }
-END-OF-FILE)
+EOF
+)
 
 if ! check_vhost "$APP_NAME" "$new_vhost"; then
   echo "Creating vhost for '$APP_NAME'"
