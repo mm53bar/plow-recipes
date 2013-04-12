@@ -17,6 +17,7 @@ function create_papertrail_rsyslog() {
 config=$(cat <<EOF
 *.*;bluepilld.none          @logs.papertrailapp.com:$PAPERTRAIL_PORT
 EOF
+)
 
 if ! check_papertrail_rsyslog; then
   echo "Add papertrail to rsyslog"
