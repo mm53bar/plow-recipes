@@ -10,16 +10,16 @@ function check_papertrail_rsyslog() {
 }
 
 function create_papertrail_rsyslog() {
-  echo "$1" > /etc/rsyslog.d/
+  echo "$1" > /etc/rsyslog.d/papertrail.conf
   restart rsyslog
 }
 
-config=$(cat <<EOF
+papertrail_config=$(cat <<EOF
 *.*;bluepilld.none          @logs.papertrailapp.com:$PAPERTRAIL_PORT
 EOF
 )
 
 if ! check_papertrail_rsyslog; then
-  echo "Add papertrail to rsyslog"
-  [[ $DRY_RUN ]] || create_papertrail_rsyslog "$config"
+  echo "Adding papertrail to rsyslog"
+  [[ $DRY_RUN ]] || create_papertrail_rsyslog "$papertrail_config"
 fi
