@@ -34,7 +34,7 @@ if ! check_app_folder; then
   [[ $DRY_RUN ]] || create_app_folder "$DEPLOYER"
 fi
 
-if ! check_git_host; then
+if ! check_git_host "$DEPLOYER" "$GIT_HOST"; then
   echo "Adding git host"
   [[ $DRY_RUN ]] || create_git_host "$DEPLOYER" "$GIT_HOST"
 fi
