@@ -32,7 +32,7 @@ if ! check_postgres; then
   [[ $DRY_RUN ]] || install_postgres
 fi
 
-if ! check_postgres_user; then
+if ! check_postgres_user "$DB_USER"; then
   echo "Create postgres user and database"
   [[ $DRY_RUN ]] || create_postgres_user "$DB_USER" "$DB_PASSWORD" "$DB_NAME"
 fi
