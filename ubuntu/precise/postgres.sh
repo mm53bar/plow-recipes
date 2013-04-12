@@ -19,7 +19,7 @@ function install_postgres() {
 }
 
 function check_postgres_user() {
-  psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='$1'" | grep -q 1
+  sudo -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='$1'" | grep -q 1
 }
 
 function create_postgres_user() {
