@@ -20,7 +20,7 @@ function create_pg_backup() {
   mkdir -p /mnt/s3/pg_backup
 }
 
-pg_backup_script=$(cat <<EOF
+pg_backup_script=$(cat <<'EOF'
 # Postgres backup script
 
 fail()
