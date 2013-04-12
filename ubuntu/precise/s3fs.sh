@@ -21,19 +21,18 @@ function install_s3fs() {
   make && make install)
 }
 
-function check_nginx_upstart() {
+function check_s3fs_upstart() {
   test -e /etc/init/s3.conf
 }
 
-function create_nginx_upstart() {
+function create_s3fs_upstart() {
   echo "$1" > /etc/init/s3.conf
   start s3
 }
 
 function check_s3fs_password() {
-  local password=$(</etc/passwd-s3fs)
-  [[ -e /etc/passwd-s3fs ]] && 
-    diff -q <(echo "$password") <(echo "$1") > /dev/null 2>&1
+  [[ -e /etc/passwd-s3fs ]] && local password=$(</etc/passwd-s3fs)
+  diff -q <(echo "$password") <(echo "$1") > /dev/null 2>&1
 }
 
 function create_s3fs_password() {
