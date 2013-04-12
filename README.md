@@ -1,12 +1,10 @@
-Plow Recipes
-=============
+# Plow Recipes
 
 [Plow](https://github.com/mm53bar/plow) is a server provisioning tool for devs.
 
 This repository is a public source for my plow recipes. Note that even though these recipes were written for use in plow, they're just Bash and you can use them all by themselves or as part of some other tool like Linode Stackscripts.
 
-How to Use
-==========
+## How to Use
 
 Install plow into your app:
 
@@ -41,7 +39,7 @@ To support the recipes, you need to configure some attributes.  For example, the
 
     RUBY_VERSION="1.9.3-p125"
     DOMAIN_NAME="example.com"
-    USER="my_app_name"
+    DEPLOYER="my_app_name"
     APP_NAME="my_app_name"
     GIT_HOST="github.com"
     SSL_KEY="my_cert.key"
@@ -50,7 +48,7 @@ To support the recipes, you need to configure some attributes.  For example, the
     DB_PASSWORD="P455W0RD"
     DB_NAME="my_app_name_production"
     PAPERTRAIL_PORT="34235"
-    DATADOG_KEY="34lh3jk4h62kj3h6jk23h6h23234hjj"
+    DATADOG_API_KEY="34lh3jk4h62kj3h6jk23h6h23234hjj"
     AWS_ACCESS_KEY="2345LKNASLDNF23"
     AWS_SECRET_KEY="a0708asASF2664asdjlASETGA26100askjdls1w3n23"
     S3_BUCKET="my_app_name-production"
@@ -65,3 +63,13 @@ You're all set to provision your server. Run the following:
       postgres vhost rails_app nodejs papertrail datadog s3fs pg_backup
     
 That's it!
+
+## Todo
+
+* update readme to reflect that sudo and env are required
+* investigate why `restart: Unknown job: nginx` is being displayed at end of nginx recipe
+* move `apt-get upgrade` out of the build-essential recipe because it shouldn't be run at the beginning of every deployment
+* update postgres recipe to use new ppa and address security issue
+* update plow so that recipes don't need to have `.sh` suffix
+* come up with a way to check environment variable dependencies in each recipe i.e. fail if not found
+* 
