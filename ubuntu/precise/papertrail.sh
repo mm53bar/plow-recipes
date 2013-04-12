@@ -1,8 +1,24 @@
 # Add papertrailapp.com to rsyslog
+#
+# Environment variables required:
+#
+# PAPERTRAIL_PORT           # should be same as $APP_NAME
+# DRY_RUN                   # if set, don't execute install
 
-if [ -f /etc/rsyslog.d/papertrail.conf ]; then
-  echo "Papertrail logging already configured"
-else
-  cp files/papertrail.conf /etc/rsyslog.d/
+function check_papertrail_rsyslog() {
+  test -f /etc/rsyslog.d/papertrail.conf
+}
+
+function create_papertrail_rsyslog() {
+  echo "$1" > /etc/rsyslog.d/
   restart rsyslog
+}
+
+config=$(cat <<EOF
+*.*;bluepilld.none          @logs.papertrailapp.com:$PAPERTRAIL_PORT
+EOF
+
+if ! check_papertrail_rsyslog; then
+  echo "Add papertrail to rsyslog"
+  [[ $DRY_RUN ]] || create_papertrail_rsyslog "$config"
 fi
