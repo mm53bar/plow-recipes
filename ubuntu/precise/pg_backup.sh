@@ -7,6 +7,7 @@
 #
 # Recipes required:
 #
+# postgres
 # s3fs
 
 function check_pg_backup() {
