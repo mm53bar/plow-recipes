@@ -70,11 +70,6 @@ if ! check_s3fs ; then
   [[ $DRY_RUN ]] || install_s3fs
 fi
 
-if ! check_s3fs_upstart ; then
-  echo "Creating s3fs upstart config"
-  [[ $DRY_RUN ]] || create_s3fs_upstart "$s3fs_upstart"
-fi
-
 if ! check_s3fs_password "$s3fs_password"; then
   echo "Creating s3fs password"
   [[ $DRY_RUN ]] || create_s3fs_password "$s3fs_password"
@@ -83,4 +78,9 @@ fi
 if ! check_s3fs_mount; then
   echo "Creating s3fs mount"
   [[ $DRY_RUN ]] || create_s3fs_mount
+fi
+
+if ! check_s3fs_upstart ; then
+  echo "Creating s3fs upstart config"
+  [[ $DRY_RUN ]] || create_s3fs_upstart "$s3fs_upstart"
 fi
