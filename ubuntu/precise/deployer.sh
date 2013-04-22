@@ -10,7 +10,8 @@ function check_deployer() {
 }
 
 function create_deployer() {
-  useradd --create-home --shell /bin/bash --user-group --groups admin $1  
+  groupadd deployers
+  useradd --create-home --shell /bin/bash --user-group --groups admin,deployers $1  
   mkdir -p /home/$1/.ssh
   cp files/id_rsa.pub /home/$1/.ssh/authorized_keys
   chmod 700 /home/$1/.ssh

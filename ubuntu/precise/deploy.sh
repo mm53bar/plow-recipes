@@ -4,7 +4,12 @@
 #
 # DEPLOY_TO                 # directory where your app lives
 # REF                       # if set, specifies the git ref to deploy
+# REPO                      # git repo to clone
 # DRY_RUN                   # if set, don't execute install
+
+function check_deploy() {
+  [[ -d $1 ]] && git status > /dev/null 2>&1
+}
 
 function deploy() {
   pushd $1
@@ -16,11 +21,23 @@ function deploy() {
   popd
 }
 
+function deploy_setup() {
+  mkdir -p $1
+  git clone --no-checkout $2 $1
+}
+
 if [ -z "$REF" ]; then
   REMOTE_REF=origin/master
 else
   REMOTE_REF=origin/$REF
 fi
 
+if ! check_deploy "$DEPLOY_TO" ; then
+  echo "Setting up application at '$DEPLOY_TO'"
+  [[ $DRY_RUN ]] || deploy_setup "$DEPLOY_TO" "$REPO"
+fi
+
 echo "Deploying to '$DEPLOY_TO'"
-[[ $DRY_RUN ]] || deploy "$DEPLOY_TO" "$REMOTE_REF"
+[[ $DRY_RUN ]] || deploy "$DEPLOY_TO" "$REF"
+
+

@@ -2,7 +2,8 @@
 #
 # Environment variables required:
 #
-# DEPLOYER                  # should be same as $APP_NAME
+# DEPLOY_TO                 # path where your app lives
+# DEPLOYER                  # user that will be deploying the app
 # GIT_HOST                  # ex. github.com
 # DRY_RUN                   # if set, don't execute install
 #
@@ -10,13 +11,11 @@
 #
 # deployer
 
-function check_app_folder() {
-  test -d /srv/$1
-}
-
-function create_app_folder() {
-  mkdir -p /srv/$1
-  chown $1 /srv/$1
+function set_deploy_permissions() {
+  local base_deploy_path=`dirname $1`
+  mkdir -p $base_deploy_path
+  chown -R root:deployers $base_deploy_path
+  chmod -R 0775 $base_deploy_path
 }
 
 function check_git_host() {
@@ -29,10 +28,7 @@ function create_git_host() {
   chown $1:$1 /home/$1/.ssh/known_hosts
 }
 
-if ! check_app_folder; then
-  echo "Creating folder for '$DEPLOYER'"
-  [[ $DRY_RUN ]] || create_app_folder "$DEPLOYER"
-fi
+[[ $DRY_RUN ]] || set_deploy_permissions "$DEPLOY_TO"
 
 if ! check_git_host "$DEPLOYER" "$GIT_HOST"; then
   echo "Adding git host"
